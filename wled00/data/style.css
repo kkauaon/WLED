@@ -47,9 +47,6 @@ button.sml {
 #scan {
   margin-top: -10px;
 }
-.invisible {
-  display: none;
-}
 .toprow {
   top: 0;
   position: sticky;
