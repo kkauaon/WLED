@@ -8,10 +8,21 @@
 	<script>
 		var scanLoops = 0, preScanSSID = "";
 		var maxNetworks = 3;
+		var ans;
+		var ansmod = [];
+
+		function AC(v) {
+			if (v.checked) {
+				for (let e of ansmod) e.classList.remove("invisible")
+			} else { 
+				for (let e of ansmod) e.classList.add("invisible")
+			}
+		}
+
 		function N() {
 			const button = gId("scan");
 			button.disabled = true;
-			button.textContent = "Scanning...";
+			button.textContent = "Procurando...";
 
 			fetch(getURL("/json/net")).then((response) => {
 				return response.json();
@@ -76,7 +87,7 @@
 						const option = cE("option");
 
 						option.setAttribute("value", "!Cs");
-						option.textContent = "Other network...";
+						option.textContent = "Outra rede...";
 						select.appendChild(option);
 
 						if (input.value === "" || input.value === "Your_Network" || found) input.replaceWith(select);
@@ -85,7 +96,7 @@
 				}
 
 				button.disabled = false;
-				button.textContent = "Scan";
+				button.textContent = "Procurar";
 			});
 		}
 		// replace WiFi select with custom SSID input field again
@@ -113,14 +124,14 @@
 			var i = gId("wifi_entries").childNodes.length;
 			if (i >= maxNetworks) return;
 			var b = `<div id="net${i}"><hr class="sml">
-Network name (SSID${i==0?", empty to not connect":""}):<br><input type="text" id="CS${i}" name="CS${i}" maxlength="32" value="${ssid}" ${i>0?"required":""}><br>
-Network password:<br><input type="password" name="PW${i}" maxlength="64" value="${pass}"><br>
+Nome da rede ${i+1}:<br><input type="text" id="CS${i}" name="CS${i}" maxlength="32" value="${ssid}" ${i>0?"required":""}><br>
+Senha da rede ${i+1}:<br><input type="password" name="PW${i}" maxlength="64" value="${pass}"><br><div class="ansmod invisible">
 Static IP (leave at 0.0.0.0 for DHCP)${i==0?"<br>Also used by Ethernet":""}:<br>
 <input name="IP${i}0" type="number" class="s" min="0" max="255" value="${ip&0xFF}" required>.<input name="IP${i}1" type="number" class="s" min="0" max="255" value="${(ip>>8)&0xFF}" required>.<input name="IP${i}2" type="number" class="s" min="0" max="255" value="${(ip>>16)&0xFF}" required>.<input name="IP${i}3" type="number" class="s" min="0" max="255" value="${(ip>>24)&0xFF}" required><br>
 Static gateway:<br>
 <input name="GW${i}0" type="number" class="s" min="0" max="255" value="${gw&0xFF}" required>.<input name="GW${i}1" type="number" class="s" min="0" max="255" value="${(gw>>8)&0xFF}" required>.<input name="GW${i}2" type="number" class="s" min="0" max="255" value="${(gw>>16)&0xFF}" required>.<input name="GW${i}3" type="number" class="s" min="0" max="255" value="${(gw>>24)&0xFF}" required><br>
 Static subnet mask:<br>
-<input name="SN${i}0" type="number" class="s" min="0" max="255" value="${sn&0xFF}" required>.<input name="SN${i}1" type="number" class="s" min="0" max="255" value="${(sn>>8)&0xFF}" required>.<input name="SN${i}2" type="number" class="s" min="0" max="255" value="${(sn>>16)&0xFF}" required>.<input name="SN${i}3" type="number" class="s" min="0" max="255" value="${(sn>>24)&0xFF}" required></div>`;
+<input name="SN${i}0" type="number" class="s" min="0" max="255" value="${sn&0xFF}" required>.<input name="SN${i}1" type="number" class="s" min="0" max="255" value="${(sn>>8)&0xFF}" required>.<input name="SN${i}2" type="number" class="s" min="0" max="255" value="${(sn>>16)&0xFF}" required>.<input name="SN${i}3" type="number" class="s" min="0" max="255" value="${(sn>>24)&0xFF}" required></div></div.`;
 			gId("wifi_entries").insertAdjacentHTML("beforeend", b);
 			btnWiFi(i+1);
 		}
@@ -135,6 +146,9 @@ Static subnet mask:<br>
 			getLoc();
 			loadJS(getURL('/settings/s.js?p=1'), false);	// If we set async false, file is loaded and executed, then next statement is processed
 			if (loc) d.Sf.action = getURL('/settings/wifi');
+			ans = gId("ANS")
+			ansmod = gEBCN("ansmod")
+			gId("ANS").onclick = (e) => AC(e.target)
 		}
 	</script>
 	<style>@import url("style.css");</style>
@@ -143,25 +157,25 @@ Static subnet mask:<br>
 	<form id="form_s" name="Sf" method="post">
 		<div class="toprow">
 		<div class="helpB"><button type="button" onclick="H('features/settings/#wifi-settings')">?</button></div>
-		<button type="button" onclick="B()">Back</button><button type="submit">Save & Connect</button><hr>
+		<button type="button" onclick="B()">Voltar</button><button type="submit">Salvar & Conectar</button><hr>
 		</div>
-		<h2>WiFi setup</h2>
-		<h3>Connect to existing network</h3>
-		<button type="button" id="scan" onclick="N()">Scan</button><br>
+		<h2>Configuração de WiFi</h2>
+		<h3>Conectar a uma rede existente</h3>
+		<button type="button" id="scan" onclick="N()">Procurar</button><br>
+		Configurações avançadas de rede: <input type="checkbox" id="ANS" name="ANS">
 		<div id="wifi">
-			Wireless networks
 			<div id="wifi_entries"></div>
 			<hr class="sml">
 			<button type="button" id="wifi_add" onclick="addWiFi()">+</button>
 			<button type="button" id="wifi_rem" onclick="remWiFi()">-</button><br>
 		</div>
-		DNS server address:<br>
-		<input name="D0" type="number" class="s" min="0" max="255" required>.<input name="D1" type="number" class="s" min="0" max="255" required>.<input name="D2" type="number" class="s" min="0" max="255" required>.<input name="D3" type="number" class="s" min="0" max="255" required><br>
+		<div class="ansmod invisible">DNS server address:<br>
+		<input name="D0" type="number" class="s" min="0" max="255" required>.<input name="D1" type="number" class="s" min="0" max="255" required>.<input name="D2" type="number" class="s" min="0" max="255" required>.<input name="D3" type="number" class="s" min="0" max="255" required><br></div>
 		<br>
-		mDNS address (leave empty for no mDNS):<br>
+		Endereço customizado:<br>
 		http:// <input type="text" name="CM" maxlength="32"> .local<br>
-		Client IP: <span class="sip"> Not connected </span> <br>
-		<h3>Configure Access Point</h3>
+		Client IP: <span class="sip"> Não conectado </span> <br>
+		<div class="ansmod invisible"><h3>Configure Access Point</h3>
 		AP SSID (leave empty for no AP):<br> <input type="text" name="AS" maxlength="32"><br>
 		Hide AP name: <input type="checkbox" name="AH"><br>
 		AP password (leave empty for open):<br> <input type="password" name="AP" maxlength="63" pattern="(.{8,63})|()" title="Empty or min. 8 characters"><br>
@@ -226,8 +240,9 @@ Static subnet mask:<br>
 				<option value="1">WT32-ETH01</option>
 			</select><br><br>
 		</div>
+		</div>
 		<hr>
-		<button type="button" onclick="B()">Back</button><button type="submit">Save & Connect</button>
+		<button type="button" onclick="B()">Voltar</button><button type="submit">Salvar & Conectar</button>
 	</form>
 </body>
 </html>

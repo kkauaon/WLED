@@ -11,8 +11,8 @@
 </head>
 <body onload="onLoad()">
 
-<div id="cv" class="overlay">Loading WLED UI...</div>
-<noscript><div class="overlay" style="opacity:1;">Sorry, WLED UI needs JavaScript!</div></noscript>
+<div id="cv" class="overlay">Carregando...</div>
+<noscript><div class="overlay" style="opacity:1;">É necessário ativar o JavaScript!</div></noscript>
 <div id="bg"></div>
 
 <div class="wrapper" id="top">
@@ -28,7 +28,7 @@
 			<button id="buttonPcm" onclick="togglePcMode(true)"><i class="icons">&#xe23d;</i><p class="tab-label">PC Mode</p></button>
 		</div>
 		<div id="briwrap">
-			<p class="hd">Brightness</p>
+			<p class="hd">Brilho</p>
 			<div class="slider">
 				<i class="icons slider-icon" onclick="tglTheme()" style="transform: translateY(2px);">&#xe2a6;</i>
 				<div class="sliderwrap il">
@@ -58,13 +58,13 @@
 			</div>
 		</div>
 		<div id="vwrap" class="slider">
-			<div title="Value/Brightness" class="sliderwrap il">
+			<div title="Brilho" class="sliderwrap il">
 				<input id="sliderV" class="noslide" oninput="fromV()" onchange="setColor(0)" max="100" min="0" type="range" value="100" step="any" />
 				<div class="sliderdisplay"></div>
 			</div>
 		</div>
 		<div id="kwrap" class="slider">
-			<div title="Kelvin/Temperature" class="sliderwrap il">
+			<div title="Temperatura (Kelvin)" class="sliderwrap il">
 				<input id="sliderK" class="noslide" oninput="fromK()" onchange="setColor(0)" max="10091" min="1900" type="range" value="6550" />
 				<div class="sliderdisplay"></div>
 			</div>
@@ -131,7 +131,7 @@
 			<button class="btn btn-xs" title="Add custom palette" type="button" onclick="window.location.href=getURL('/cpal.htm')"><i class="icons btn-icon">&#xe18a;</i></button>
 			<button class="btn btn-xs" title="Remove last custom palette" type="button" id="rmPal" onclick="palettesData=null;localStorage.removeItem('wledPalx');requestJson({rmcpal:true});setTimeout(loadPalettes,250,loadPalettesData);"><i class="icons btn-icon">&#xe037;</i></button>
 		</div>
-		<p class="labels hd" id="pall"><i class="icons sel-icon" onclick="tglHex()">&#xe2b3;</i> Color palette</p>
+		<p class="labels hd" id="pall"><i class="icons sel-icon" onclick="tglHex()">&#xe2b3;</i> Paleta de cores</p>
 		<div id="palw" class="il">
 			<div class="staytop fnd">
 				<input type="text" placeholder="Search" oninput="search(this,'pallist')" onfocus="search(this,'pallist')" />
@@ -143,7 +143,7 @@
 					<label class="radio schkl" onclick="loadPalettes()">
 						<div class="lstIcontent">
 							<span class="lstIname">
-								Loading...
+								Carregando...
 							</span>
 						</div>
 					</label>
@@ -154,9 +154,9 @@
 
 	<div id="Effects" class="tabcontent">
 		<div id="fx">
-			<p class="labels hd" id="modeLabel">Effect mode</p>
+			<p class="labels hd" id="modeLabel">Modos & Efeitos</p>
 			<div class="staytop fnd" id="fxFind" onmousedown="preventBlur(event);">
-				<input type="text" placeholder="Search" oninput="search(this,'fxlist')" onfocus="filterFocus(event);search(this,'fxlist');" onblur="filterFocus(event);">
+				<input type="text" placeholder="Pesquisar" oninput="search(this,'fxlist')" onfocus="filterFocus(event);search(this,'fxlist');" onblur="filterFocus(event);">
 				<i class="icons clear-icon" onclick="clean(this);">&#xe38f;</i>
 				<i class="icons search-icon" style="cursor:pointer;">&#xe0a1;</i>
 				<div id="filters" class="filter fade">
@@ -191,7 +191,7 @@
 					<label class="radio schkl" onclick="loadFX()">
 						<div class="lstIcontent">
 							<span class="lstIname">
-								Loading...
+								Carregando...
 							</span>
 						</div>
 					</label>
@@ -257,30 +257,30 @@
 	</div>
 
 	<div id="Segments" class="tabcontent">
-		<p class="labels hd" id="segLabel">Segments</p>
+		<p class="labels hd" id="segLabel">Segmentos</p>
 		<div id="segcont">
-			Loading...
+			Carregando...
 		</div>
 		<div id="segutil" class="staybot">
 		</div>
 		<div id="segutil2">
-			<button class="btn btn-s" id="rsbtn" onclick="rSegs()">Reset segments</button>
+			<button class="btn btn-s" id="rsbtn" onclick="rSegs()">Resetar segmentos</button>
 		</div>
-		<p>Transition: <input id="tt" type="number" min="0" max="65.5" step="0.1" value="0.7">&nbsp;s</p>
+		<p>Transição: <input id="tt" type="number" min="0" max="65.5" step="0.1" value="0.7">&nbsp;s</p>
 		<p id="ledmap" class="hide"></p>
 	</div>
 
 	<div id="Presets" class="tabcontent">
 		<div id="pql">
 		</div>
-		<p class="labels hd">Presets</p>
+		<p class="labels hd">Predefinições</p>
 		<div class="staytop fnd" id="psFind">
-			<input type="text" placeholder="Search" oninput="search(this,'pcont')" onfocus="search(this,'pcont')" />
+			<input type="text" placeholder="Pesquisar" oninput="search(this,'pcont')" onfocus="search(this,'pcont')" />
 			<i class="icons clear-icon" onclick="clean(this);">&#xe38f;</i>
 			<i class="icons search-icon">&#xe0a1;</i>
 		</div>
 		<div id="pcont" class="list">
-			<span onclick="loadPresets()">Loading...</span>
+			<span onclick="loadPresets()">Carregando...</span>
 		</div>
 		<div id="putil" class="staybot">
 		</div>
@@ -288,10 +288,10 @@
 </div>
 
 <div class="tab bot" id="bot">
-	<button class="tablinks" onclick="openTab(0)"><i class="icons">&#xe2b3;</i><p class="tab-label">Colors</p></button>
-	<button class="tablinks" onclick="openTab(1)"><i class="icons">&#xe23d;</i><p class="tab-label">Effects</p></button>
-	<button class="tablinks" onclick="openTab(2)"><i class="icons">&#xe34b;</i><p class="tab-label">Segments</p></button>
-	<button class="tablinks" onclick="openTab(3)"><i class="icons">&#xe04c;</i><p class="tab-label">Presets</p></button>
+	<button class="tablinks" onclick="openTab(0)"><i class="icons">&#xe2b3;</i><p class="tab-label">Cores</p></button>
+	<button class="tablinks" onclick="openTab(1)"><i class="icons">&#xe23d;</i><p class="tab-label">Efeitos</p></button>
+	<button class="tablinks" onclick="openTab(2)"><i class="icons">&#xe34b;</i><p class="tab-label">Segmentos</p></button>
+	<button class="tablinks" onclick="openTab(3)"><i class="icons">&#xe04c;</i><p class="tab-label">Predefinições</p></button>
 </div>
 
 <div id="connind"></div>
@@ -302,12 +302,12 @@
 	<div id="imgw">
 		<img class="wi" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAFCAYAAAC5Fuf5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABbSURBVChTlY9bDoAwDMNW7n9nwCipytQN4Z8tbrTHmDmF4oPzyldwRqp1SSdnV/NuZuzqerAByxXznBw3igkeFEfXyUuhK/yFM0CxJfyqXZEOc6/Sr9/bf7uIC5Nwd7orMvAPAAAAAElFTkSuQmCC" />
 	</div>
-	<div id="kv">Loading...</div><br>
+	<div id="kv">Carregando...</div><br>
 	<div>
 		<button class="btn ibtn" onclick="requestJson()">Refresh</button>
 		<button class="btn ibtn" onclick="toggleNodes()">Instance List</button>
-		<button class="btn ibtn" onclick="window.open(getURL('/update'),'_self');">Update WLED</button>
-		<button class="btn ibtn" id="resetbtn" onclick="cnfReset()">Reboot WLED</button>
+		<button class="btn ibtn" onclick="window.open(getURL('/update'),'_self');">Atualizar WLED</button>
+		<button class="btn ibtn" id="resetbtn" onclick="cnfReset()">Reiniciar sistema</button>
 	</div>
 	<br>
 	<span class="h">Made with&#32;<span id="heart">&#10084;&#xFE0E;</span>&#32;by&#32;<a href="https://github.com/Aircoookie/" target="_blank">Aircoookie</a>&#32;and the&#32;<a href="https://wled.discourse.group/" target="_blank">WLED community</a></span>
